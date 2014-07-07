@@ -1,0 +1,26 @@
+#!/bin/bash -e
+
+test -e /var/run/mysqld || install -m 755 -o mysql -g root -d /var/run/mysqld
+
+chown mysql:adm /var/log/mysql
+chmod 700 /var/lib/mysql
+chown mysql:mysql /var/lib/mysql
+
+# We set debian-sys-maint password which might be in this Docker image different for existing data
+
+PASSWORD=$(grep password /etc/mysql/debian.cnf | awk '{print $3}' | head -1)
+if [ ! "$PASSWORD" ]; then
+    echo "No password"
+    exit 1
+fi
+
+# If any of the following commands fails we want to shutdown temporary MySQL instance
+trap "/usr/bin/mysqladmin --defaults-extra-file=/etc/mysql/debian.cnf shutdown" EXIT
+
+# Temporary MySQL instance with permissions disabled
+/usr/bin/mysqld_safe --skip-grant-tables --bind-address 127.0.0.1 --skip-syslog --log-error=/var/log/mysql/mysql.err &
+sleep 5
+/usr/bin/mysql -u root -D mysql -e "update user set password=password('$PASSWORD') where user='debian-sys-maint'"
+/usr/bin/mysqladmin --defaults-extra-file=/etc/mysql/debian.cnf shutdown
+
+exec /usr/bin/mysqld_safe --skip-syslog --log-error=/var/log/mysql/mysql.err 2>&1
