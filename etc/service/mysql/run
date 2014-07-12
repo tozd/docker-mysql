@@ -7,7 +7,10 @@ chmod 700 /var/lib/mysql
 chown mysql:mysql /var/lib/mysql
 
 # If directory is empty, we restore it from our copy of initial MySQL database files
-[[ $(ls -A /var/lib/mysql) ]] || cp -a /var/lib/mysql.orig/* /var/lib/mysql/
+[[ $(ls -A /var/lib/mysql | grep -v placeholder) ]] || cp -a /var/lib/mysql.orig/* /var/lib/mysql/
+
+# Is there any other script to run here?
+[ -f /etc/service/mysql/run.initialization ] && source /etc/service/mysql/run.initialization
 
 # We set debian-sys-maint password which might be in this Docker image different for existing data
 
@@ -26,7 +29,7 @@ sleep 5
 /usr/bin/mysql -u root -D mysql -e "update user set password=password('$PASSWORD') where user='debian-sys-maint'"
 
 # Is there any other script to run here?
-[ -f /etc/service/mysql/run.include ] && source /etc/service/mysql/run.include
+[ -f /etc/service/mysql/run.permissions ] && source /etc/service/mysql/run.permissions
 
 /usr/bin/mysqladmin --defaults-extra-file=/etc/mysql/debian.cnf shutdown
 
