@@ -3,7 +3,7 @@ FROM tozd/runit
 EXPOSE 3306/tcp
 
 RUN apt-get update -q -q && \
- apt-get install --yes --force-yes mysql-server-5.6&& \
+ apt-get install --yes --force-yes mariadb-server && \
  mkdir -m 700 /var/lib/mysql.orig && \
  mv /var/lib/mysql/* /var/lib/mysql.orig/ && \
  sed -i 's/127\.0\.0\.1/0.0.0.0/' /etc/mysql/my.cnf && \
