@@ -1,4 +1,4 @@
-#/bin/bash -e
+#!/bin/bash -e
 
 mkdir -p /srv/var/log/mysql
 mkdir -p /srv/mysql

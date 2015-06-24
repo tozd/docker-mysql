@@ -6,13 +6,13 @@ chown mysql:adm /var/log/mysql
 chmod 700 /var/lib/mysql
 chown mysql:mysql /var/lib/mysql
 
-# If directory is empty, we restore it from our copy of initial MySQL database files
+# If directory is empty, we restore it from our copy of initial MySQL database files.
 [[ $(ls -A /var/lib/mysql | grep -v placeholder) ]] || cp -a /var/lib/mysql.orig/* /var/lib/mysql/
 
 # Is there any other script to run here?
 [ -f /etc/service/mysql/run.initialization ] && source /etc/service/mysql/run.initialization
 
-# We set debian-sys-maint password which might be in this Docker image different for existing data
+# We set debian-sys-maint password which might be in this Docker image different for existing data.
 
 PASSWORD=$(grep password /etc/mysql/debian.cnf | awk '{print $3}' | head -1)
 if [ ! "$PASSWORD" ]; then
@@ -20,17 +20,25 @@ if [ ! "$PASSWORD" ]; then
     exit 1
 fi
 
-# If any of the following commands fails we want to shutdown temporary MySQL instance
-trap "/usr/bin/mysqladmin --defaults-extra-file=/etc/mysql/debian.cnf shutdown" EXIT
+# If any of the following commands fails we want to shutdown temporary MySQL instance.
+trap "/etc/init.d/mysql stop" EXIT
 
-# Temporary MySQL instance with permissions disabled
-/usr/bin/mysqld_safe --skip-grant-tables --bind-address 127.0.0.1 --skip-syslog --log-error=/var/log/mysql/mysql.err &
-sleep 5
+# Temporary MySQL instance with permissions disabled.
+chpst -u mysql:mysql /usr/bin/mysqld_safe --skip-grant-tables --bind-address 127.0.0.1 --skip-syslog --log-error=/var/log/mysql/error.log &
+
+for i in $(seq 1 30); do
+  sleep 1
+  if /etc/init.d/mysql status > /dev/null ; then break; fi
+done
+
 /usr/bin/mysql -u root -D mysql -e "update user set password=password('$PASSWORD') where user='debian-sys-maint'"
 
 # Is there any other script to run here?
 [ -f /etc/service/mysql/run.permissions ] && source /etc/service/mysql/run.permissions
 
-/usr/bin/mysqladmin --defaults-extra-file=/etc/mysql/debian.cnf shutdown
+/etc/init.d/mysql stop > /dev/null
 
-exec /usr/bin/mysqld_safe --skip-syslog --log-error=/var/log/mysql/mysql.err 2>&1
+# Wait a bit, so that all processes are really gone.
+sleep 1
+
+exec chpst -u mysql:mysql /usr/bin/mysqld_safe --skip-syslog --log-error=/var/log/mysql/error.log 2>&1 >> /var/log/mysql/error.log
