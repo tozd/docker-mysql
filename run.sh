@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# An example script to run MySQL (MairaDB fork) in production. It uses data volumes under the $DATA_ROOT directory.
+# An example script to run MySQL (MariaDB fork) in production. It uses data volumes under the $DATA_ROOT directory.
 # By default /srv. After first run, you can connect to the MySQL as an administrator from the inside
 # the container, by default:
 #
