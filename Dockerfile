@@ -7,6 +7,9 @@ RUN apt-get update -q -q && \
  mkdir -m 700 /var/lib/mysql.orig && \
  mv /var/lib/mysql/* /var/lib/mysql.orig/ && \
  sed -i 's/127\.0\.0\.1/0.0.0.0/' /etc/mysql/my.cnf && \
+ echo 'max_connections = 300' >> /etc/mysql/my.cnf && \
+ echo 'max_user_connections = 300' >> /etc/mysql/my.cnf && \
+ echo 'thread_concurrency = 10' >> /etc/mysql/my.cnf && \
  rm -f /etc/mysql/conf.d/mysqld_safe_syslog.cnf
 
 COPY ./patches patches
