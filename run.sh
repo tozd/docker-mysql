@@ -1,28 +1,7 @@
 #!/bin/bash -e
 
 # An example script to run MySQL (MariaDB fork) in production. It uses data volumes under the $DATA_ROOT directory.
-# By default /srv. After first run, you can connect to the MySQL as an administrator from the inside
-# the container, by default:
-#
-# docker exec -t -i mysql /bin/bash
-#
-# mysql -u root
-#
-# You should set MySQL root user's password as soon as possible:
-#
-# mysqladmin -u root password '<PASSWORD>'
-#
-# After that you can connect to the MySQL using:
-#
-# mysql -u root -p
-#
-# You can create database:
-#
-# CREATE DATABASE <DBNAME>
-#
-# You can create users:
-#
-# GRANT ALL PRIVILEGES ON <DBNAME>.* TO <USERNAME>@localhost IDENTIFIED BY '<PASSWORD>'
+# By default /srv.
 
 NAME='mysql'
 DATA_ROOT='/srv'

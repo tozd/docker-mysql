@@ -2,6 +2,9 @@ FROM tozd/runit
 
 EXPOSE 3306/tcp
 
+VOLUME /var/log/mysql
+VOLUME /var/lib/mysql
+
 RUN apt-get update -q -q && \
  apt-get install --yes --force-yes mariadb-server && \
  mkdir -m 700 /var/lib/mysql.orig && \
