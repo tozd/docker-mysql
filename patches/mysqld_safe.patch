@@ -4,8 +4,8 @@
  eval_log_error () {
    cmd="$1"
    case $logging in
--    file) cmd="$cmd >> "`shell_quote_string "$err_log"`" 2>&1" ;;
-+    file) cmd="$cmd >> "`shell_quote_string "$err_log"`" 2>&1 & wait" ;;
+-    file) cmd="$cmd 2>&1 | "`shell_quote_string "$helper"`" $user log "`shell_quote_string "$err_log"` ;;
++    file) cmd="$cmd 2>&1 | "`shell_quote_string "$helper"`" $user log "`shell_quote_string "$err_log"`" & wait" ;;
      syslog)
        # mysqld often prefixes its messages with a timestamp, which is
        # redundant when logging to syslog (which adds its own timestamp)
