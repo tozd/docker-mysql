@@ -2,6 +2,8 @@ FROM tozd/runit
 
 EXPOSE 3306/tcp
 
+ENV MYSQL_DATA_CHOWN=
+
 VOLUME /var/log/mysql
 VOLUME /var/lib/mysql
 
