@@ -9,6 +9,17 @@ chown mysql:mysql /var/lib/mysql
 # If directory is empty, we restore it from our copy of initial MySQL database files.
 [[ $(ls -A /var/lib/mysql | grep -v placeholder) ]] || cp -a /var/lib/mysql.orig/* /var/lib/mysql/
 
+# Ensure that data has proper permissions, if MYSQL_DATA_CHOWN is set.
+if [[ -n "${MYSQL_DATA_CHOWN}" && -d /var/lib/mysql && ! -f /dev/shm/mysql_data_chown_ran ]]; then
+  # We want this to run only the first time inside a new container. And not
+  # after runit restarts the service because of some issues with the service.
+  touch /dev/shm/mysql_data_chown_ran
+  # We run it in a background because it can potentially take a long time.
+  # We run it in a subshell to disown it so that current process does not have
+  # to wait for it. This prevents zombies.
+  (chown -Rh mysql:mysql /var/lib/mysql &)
+fi
+
 # Is there any other script to run here?
 [ -f /etc/service/mysql/run.initialization ] && source /etc/service/mysql/run.initialization
 
