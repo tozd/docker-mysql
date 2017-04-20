@@ -1,6 +1,6 @@
 Image providing [MySQL (MariaDB fork)](https://mariadb.org/) as a service.
 
-Different branches/tags provide different MySQL versions.
+Different Docker tags provide different MySQL versions.
 
 You should make sure you mount data volume (`/var/lib/mysql`) so that you do not
 lose database data when you are recreating a container. If a volume is empty, image
