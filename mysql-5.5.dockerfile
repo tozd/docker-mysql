@@ -1,4 +1,4 @@
-FROM tozd/runit
+FROM tozd/runit:ubuntu-trusty
 
 EXPOSE 3306/tcp
 
