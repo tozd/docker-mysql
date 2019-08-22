@@ -26,10 +26,6 @@ fi
 # We set debian-sys-maint password which might be in this Docker image different for existing data.
 
 PASSWORD=$(grep password /etc/mysql/debian.cnf | awk '{print $3}' | head -1)
-if [ ! "$PASSWORD" ]; then
-    echo "No password"
-    exit 1
-fi
 
 # If any of the following commands fails we want to shutdown temporary MySQL instance.
 trap "/etc/init.d/mysql stop" EXIT
