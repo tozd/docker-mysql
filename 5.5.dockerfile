@@ -1,4 +1,4 @@
-FROM tozd/runit:ubuntu-trusty
+FROM registry.gitlab.com/tozd/docker/runit:ubuntu-trusty
 
 EXPOSE 3306/tcp
 

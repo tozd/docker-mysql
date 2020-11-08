@@ -2,6 +2,13 @@
 
 <https://gitlab.com/tozd/docker/mysql>
 
+Available as:
+
+* [`tozd/mysql`](https://hub.docker.com/r/tozd/mysql)
+* [`registry.gitlab.com/tozd/docker/mysql`](https://gitlab.com/tozd/docker/mysql/container_registry)
+
+## Description
+
 Image providing [MySQL (MariaDB fork)](https://mariadb.org/) as a service.
 
 Different Docker tags provide different MySQL versions.
