@@ -13,7 +13,7 @@ RUN apt-get update -q -q && \
  apt-get install --yes --force-yes mariadb-server && \
  mkdir -m 700 /var/lib/mysql.orig && \
  mv /var/lib/mysql/* /var/lib/mysql.orig/ && \
- rm -f /etc/mysql/conf.d/mysqld_safe_syslog.cnf && \
+ rm -f /etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf && \
  apt-get install patch --yes --force-yes && \
  for patch in patches/*; do patch --prefix=./patches/ -p0 --force "--input=$patch" || exit 1; done && \
  rm -rf patches && \
