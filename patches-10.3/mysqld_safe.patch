@@ -1,0 +1,11 @@
+--- /usr/bin/mysqld_safe.orig	2022-01-18 01:20:10.144988264 +0100
++++ /usr/bin/mysqld_safe	2022-01-18 01:21:07.038670094 +0100
+@@ -153,7 +153,7 @@
+   case $logging in
+     file)
+      if [ "$helper_exist" -eq "0" ]; then
+-        cmd="$cmd 2>&1 | "`shell_quote_string "$helper"`" $user log "`shell_quote_string "$err_log"`
++        cmd="$cmd 2>&1 | "`shell_quote_string "$helper"`" $user log "`shell_quote_string "$err_log"`" & wait"
+      fi
+      ;;
+     syslog)

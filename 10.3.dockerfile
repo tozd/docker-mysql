@@ -7,7 +7,7 @@ ENV MYSQL_DATA_CHOWN=
 VOLUME /var/log/mysql
 VOLUME /var/lib/mysql
 
-COPY ./patches patches
+COPY ./patches-10.3 patches
 
 RUN apt-get update -q -q && \
  apt-get install --yes --force-yes mariadb-server && \
