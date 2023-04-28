@@ -23,19 +23,25 @@ fi
 # Is there any other script to run here?
 [ -f /etc/service/mysql/run.initialization ] && source /etc/service/mysql/run.initialization
 
+if [ -e /etc/init.d/mariadb ]; then
+  MYSQL="/etc/init.d/mariadb"
+else
+  MYSQL="/etc/init.d/mysql"
+fi
+
 # We set debian-sys-maint password which might be in this Docker image different for existing data.
 
 PASSWORD=$(grep password /etc/mysql/debian.cnf | awk '{print $3}' | head -1)
 
 # If any of the following commands fails we want to shutdown temporary MySQL instance.
-trap "/etc/init.d/mysql stop" EXIT
+trap "$MYSQL stop" EXIT
 
 # Temporary MySQL instance with permissions disabled.
 /usr/bin/mysqld_safe --skip-grant-tables --bind-address 127.0.0.1 --skip-syslog --log-error=/var/log/mysql/error.log &
 
 for i in $(seq 1 30); do
   sleep 1
-  if /etc/init.d/mysql status > /dev/null ; then break; fi
+  if "$MYSQL" status > /dev/null ; then break; fi
 done
 
 /usr/bin/mysql -u root -D mysql -e "update user set password=password('$PASSWORD') where user='debian-sys-maint'"
@@ -43,7 +49,7 @@ done
 # Is there any other script to run here?
 [ -f /etc/service/mysql/run.permissions ] && source /etc/service/mysql/run.permissions
 
-/etc/init.d/mysql stop > /dev/null
+"$MYSQL" stop > /dev/null
 
 # Wait a bit, so that all processes are really gone.
 sleep 1
