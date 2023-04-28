@@ -23,10 +23,9 @@ fi
 # Is there any other script to run here?
 [ -f /etc/service/mysql/run.initialization ] && source /etc/service/mysql/run.initialization
 
-if [ -e /etc/init.d/mariadb ]; then
-  # There is no need to set debian-sys-maint password because with 10.4+ there is unix
-  # socket authentication instead (which on Ubuntu is when /etc/init.d/mariadb has been made).
-else
+# There is no need to set debian-sys-maint password because with 10.4+ there is unix
+# socket authentication instead (which on Ubuntu is when /etc/init.d/mariadb has been made).
+if [ ! -e /etc/init.d/mariadb ]; then
   # We set debian-sys-maint password which might be in this Docker image different for existing data.
 
   PASSWORD=$(grep password /etc/mysql/debian.cnf | awk '{print $3}' | head -1)
