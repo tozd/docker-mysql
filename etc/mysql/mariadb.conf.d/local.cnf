@@ -1,6 +1,6 @@
 # This file overrides defaults in /etc/mysql/my.cnf.
 [mysqld]
-bind-address = 0.0.0.0
+bind_address = 0.0.0.0
 max_connections = 300
 max_user_connections = 300
-myisam-recover = BACKUP,FORCE
+myisam_recover_options = BACKUP,FORCE
