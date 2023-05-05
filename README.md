@@ -21,8 +21,8 @@ Available as:
 
 ## Volumes
 
-- `/var/log/mysql`: log files
-- `/var/lib/mysql`: persist this volume to not lose state
+- `/var/log/mysql`: Log files.
+- `/var/lib/mysql`: Persist this volume to not lose state.
 
 ## Variables
 
