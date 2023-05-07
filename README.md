@@ -76,3 +76,8 @@ You can create users:
 ```
 > GRANT ALL PRIVILEGES ON <DBNAME>.* TO '<USERNAME>'@'%' IDENTIFIED BY '<PASSWORD>'
 ```
+
+## GitHub mirror
+
+There is also a [read-only GitHub mirror available](https://github.com/tozd/docker-mysql),
+if you need to fork the project there.
