@@ -11,8 +11,7 @@ chown mysql:mysql /var/lib/mysql
 
 # Ensure that data has proper permissions, if MYSQL_DATA_CHOWN is set.
 if [[ -n "${MYSQL_DATA_CHOWN}" && -d /var/lib/mysql && ! -f /dev/shm/mysql_data_chown_ran ]]; then
-  # We want this to run only the first time inside a new container. And not
-  # after runit restarts the service because of some issues with the service.
+  # We want this to run only the first time inside a new container.
   touch /dev/shm/mysql_data_chown_ran
   # We run it in a background because it can potentially take a long time.
   # We run it in a subshell to disown it so that current process does not have
