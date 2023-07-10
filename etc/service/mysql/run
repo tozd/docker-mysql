@@ -34,11 +34,13 @@ if [ ! -e /etc/init.d/mariadb ]; then
   trap "/etc/init.d/mysql stop" EXIT
 
   # Temporary MySQL instance with permissions disabled.
-  /usr/bin/mysqld_safe --skip-grant-tables --bind-address 127.0.0.1 --skip-syslog --log-error=/var/log/mysql/error.log &
+  touch /var/log/mysql/error.log
+  chown mysql:adm /var/log/mysql/error.log
+  /usr/bin/mysqld_safe --skip-grant-tables --bind-address 127.0.0.1 --no-auto-restart --skip-syslog --log-error=/var/log/mysql/error.log 2>&1 >>/var/log/mysql/error.log &
 
   for i in $(seq 1 30); do
     sleep 1
-    if /etc/init.d/mysql status > /dev/null ; then break; fi
+    if /etc/init.d/mysql status >/dev/null ; then break; fi
   done
 
   /usr/bin/mysql -u root -D mysql -e "update user set password=password('$PASSWORD') where user='debian-sys-maint'"
@@ -46,10 +48,12 @@ if [ ! -e /etc/init.d/mariadb ]; then
   # Is there any other script to run here?
   [ -f /etc/service/mysql/run.permissions ] && source /etc/service/mysql/run.permissions
 
-  /etc/init.d/mysql stop > /dev/null
+  /etc/init.d/mysql stop >/dev/null
 
   # Wait a bit, so that all processes are really gone.
   sleep 1
 fi
 
-exec /usr/bin/mysqld_safe --skip-syslog --log-error=/var/log/mysql/error.log 2>&1 >> /var/log/mysql/error.log
+touch /var/log/mysql/error.log
+chown mysql:adm /var/log/mysql/error.log
+exec /usr/bin/mysqld_safe --skip-syslog --log-error=/var/log/mysql/error.log 2>&1 >>/var/log/mysql/error.log
