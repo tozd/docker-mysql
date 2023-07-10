@@ -18,7 +18,7 @@ docker run -d --name test -p 3306:3306 "${CI_REGISTRY_IMAGE}:${TAG}"
 trap cleanup EXIT
 
 echo "Sleeping"
-sleep 10
+sleep 20
 
 echo "Testing"
 nc -z docker 3306
