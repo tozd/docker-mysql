@@ -35,7 +35,7 @@ if [ ! -e /etc/init.d/mariadb ]; then
   # Temporary MySQL instance with permissions disabled.
   touch /var/log/mysql/error.log
   chown mysql:adm /var/log/mysql/error.log
-  /usr/bin/mysqld_safe --skip-grant-tables --bind-address 127.0.0.1 --no-auto-restart --skip-syslog --log-error=/var/log/mysql/error.log 2>&1 >>/var/log/mysql/error.log &
+  /usr/bin/mysqld_safe --skip-grant-tables --bind-address 127.0.0.1 --skip-syslog --log-error=/var/log/mysql/error.log 2>&1 >>/var/log/mysql/error.log &
 
   for i in $(seq 1 30); do
     sleep 1
