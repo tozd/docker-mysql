@@ -3,11 +3,13 @@
 set -e
 
 cleanup() {
+  set +e
+
   echo "Logs"
-  docker logs test || true
+  docker logs test
 
   echo "Stopping Docker image"
-  docker stop test || true
+  docker stop test
   docker rm -f test
 }
 
