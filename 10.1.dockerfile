@@ -1,8 +1,9 @@
-FROM registry.gitlab.com/tozd/docker/runit:ubuntu-bionic
+FROM registry.gitlab.com/tozd/docker/dinit:ubuntu-bionic
 
 EXPOSE 3306/tcp
 
 ENV MYSQL_DATA_CHOWN=
+ENV DINIT_JSON_STDOUT=0
 
 VOLUME /var/log/mysql
 VOLUME /var/lib/mysql
