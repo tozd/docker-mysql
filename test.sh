@@ -22,3 +22,4 @@ sleep 20
 
 echo "Testing"
 nc -z docker 3306
+echo "Success"
