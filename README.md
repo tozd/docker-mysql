@@ -21,7 +21,7 @@ Available as:
 
 ## Volumes
 
-- `/var/log/mysql`: Log files.
+- `/var/log/mysql`: Log files. Logs are **not** rotated.
 - `/var/lib/mysql`: Persist this volume to not lose state.
 
 ## Variables
