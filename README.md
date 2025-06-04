@@ -18,6 +18,7 @@ Available as:
 - `10.1`: MariaDB 10.1
 - `10.3`: MariaDB 10.3
 - `10.6`: MariaDB 10.6
+- `10.11`: MariaDB 10.11
 
 ## Volumes
 
