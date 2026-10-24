@@ -22,6 +22,4 @@ RUN apt-get update -q -q && \
   apt-get autoremove --yes --force-yes && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
 
-COPY ./etc/mysql/conf.d/local.cnf /etc/mysql/conf.d/local.cnf
-COPY ./etc/mysql/mariadb.conf.d/local.cnf /etc/mysql/mariadb.conf.d/local.cnf
-COPY ./etc/service/mysql /etc/service/mysql
+COPY ./etc /etc
