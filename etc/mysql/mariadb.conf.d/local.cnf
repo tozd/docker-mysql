@@ -4,3 +4,4 @@ bind_address = 0.0.0.0
 max_connections = 300
 max_user_connections = 300
 myisam_recover_options = BACKUP,FORCE
+innodb_file_per_table = 1
