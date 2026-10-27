@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+trap 'echo "ERROR: $BASH_SOURCE:$LINENO $BASH_COMMAND" >&2' ERR
+
+# mysqld_safe ignores TERM instead of passing it on, so TERM is sent to the server
+# directly, on which it shuts down cleanly.
+exec kill -TERM "$(cat /var/run/mysqld/mysqld.pid)"
